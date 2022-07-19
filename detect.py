@@ -165,8 +165,29 @@ def run(
 
                     if save_img or save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
-                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
-                        annotator.box_label(xyxy, label, color=colors(c, True))
+                        #label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
+                        
+                        
+                        x, y, w, h = xywh
+                        img_dim = im0.shape
+                        x = int(x * img_dim[1])
+                        y = int(y * img_dim[0])                     
+
+                        r1, r2, r3 = (40, 30, 20)
+                        l = int(r3*0.75)
+                        
+                        im0 = cv2.circle(im0, (x, y), r1, (255, 255, 255), -1)
+                        im0 = cv2.circle(im0, (x, y), r2, (0, 0, 0), -1)
+                        
+                        if c == 0:
+                            im0 = cv2.circle(im0, (x, y), r3, (0, 0, 255), -1)
+                            
+                        if c == 1:
+                            im0 = cv2.rectangle(im0, (x-l, y-l), (x+l, y+l), (0, 255, 255), -1)
+                        
+                        
+                        
+                        #annotator.box_label(xyxy, label, color=colors(c, True))
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
