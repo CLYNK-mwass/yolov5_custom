@@ -197,7 +197,7 @@ def run(
                 if save_txt:  # Write to file
                         line = "NULL" 
                         with open(f'{txt_path}.txt', 'a') as f:
-                            f.write(('%g ' * len(line)).rstrip() % line + '\n')
+                            f.write(line)
                 
 
             # Stream results
